@@ -31,46 +31,47 @@ export default function Products() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(0);
 
   return (
-    <section id="products" className="py-20 bg-[#F8F9FA]">
-      <div className="container mx-auto px-6">
-        <h2 className="text-5xl font-bold text-center text-[#1A365D] mb-16">
+    <section id="products" className="py-16 md:py-24 bg-[#F8F9FA]">
+      <div className="container mx-auto px-4 md:px-6">
+        <h2 className="text-4xl md:text-5xl font-bold text-center text-[#1A365D] mb-12 md:mb-16">
           Our Products
         </h2>
 
-        <div className="flex gap-5 items-stretch">
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-5 h-[700px] md:h-[800px] lg:h-[600px] items-stretch">
           {products.map((product, index) => (
             <div
               key={product.id}
               onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(0)}
-              className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ${
-                hoveredIndex === index ? 'flex-[1.3]' : 'flex-1'
-              }`}
-              style={{ minHeight: '500px' }}
+              onMouseLeave={() => setHoveredIndex(null)}
+              onClick={() => setHoveredIndex(index)}
+              className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-in-out ${hoveredIndex === index ? 'flex-[4]' : 'flex-[1]'
+                }`}
             >
               <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${product.image})` }}
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700"
+                style={{
+                  backgroundImage: `url(${product.image})`,
+                  transform: hoveredIndex === index ? 'scale(1.05)' : 'scale(1)'
+                }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 ${hoveredIndex === index ? 'opacity-100' : 'opacity-70'
+                  }`}></div>
               </div>
 
-              <div className="relative h-full flex flex-col justify-end p-8">
-                <h3 className="text-3xl font-bold text-white mb-3">
+              <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
+                <h3 className={`font-bold text-white mb-2 transition-all duration-500 ${hoveredIndex === index ? 'text-2xl md:text-3xl' : 'text-lg md:text-xl'
+                  }`}>
                   {product.name}
                 </h3>
-                <p
-                  className={`text-white/90 text-base transition-all duration-500 ${
-                    hoveredIndex === index ? 'opacity-100 max-h-20' : 'opacity-0 max-h-0'
-                  }`}
-                >
-                  {product.description}
-                </p>
-                {hoveredIndex === index && (
-                  <div className="mt-4 flex items-center text-white font-medium cursor-pointer hover:text-[#4A90E2] transition-colors">
-                    Learn More <i className="ri-arrow-right-line ml-2"></i>
+                <div className={`overflow-hidden transition-all duration-500 ease-in-out ${hoveredIndex === index ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                  }`}>
+                  <p className="text-white/90 text-sm md:text-base mb-4">
+                    {product.description}
+                  </p>
+                  <div className="flex items-center text-white font-medium cursor-pointer hover:text-[#4A90E2] transition-colors group">
+                    Learn More <i className="ri-arrow-right-line ml-2 group-hover:translate-x-1 transition-transform"></i>
                   </div>
-                )}
+                </div>
               </div>
             </div>
           ))}
